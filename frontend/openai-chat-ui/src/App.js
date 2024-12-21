@@ -4,6 +4,7 @@ import axios from 'axios';
 const App = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [threadId, setThreadId] = useState('');
 
     const sendMessage = async () => {
         if (!input.trim()) return;
@@ -16,6 +17,7 @@ const App = () => {
         try {
             const response = await axios.post('http://localhost:5000/chat', {
                 userMessage: input.trim(),
+                threadId: localStorage.getItem('threadId') || threadId 
             });
 
             const assistantMessage = {
@@ -24,6 +26,10 @@ const App = () => {
             };
 
             setMessages((prev) => [...prev, assistantMessage]);
+            if (!threadId) {
+                setThreadId(response.data.threadId)
+                localStorage.setItem('threadId', response.data.threadId)
+            }
         } catch (error) {
             console.error('Error communicating with the server:', error);
         }

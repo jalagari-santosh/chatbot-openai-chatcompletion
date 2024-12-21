@@ -6,6 +6,7 @@ export  async function getGender(name) {
             throw new Error(`Error: ${response.statusText}`);
         }
         const data = await response.json();
+        console.log("got response from getGender", data.gender || Math.random() > 0.5 ? 'male' : 'female')
         return data.gender || Math.random() > 0.5 ? 'male' : 'female'
     } catch (error) {
         console.error("Error fetching gender:", error);
@@ -23,7 +24,7 @@ export async function getStockPrice(symbol) {
         }
         
         const data = await response.json();
-        console.log("response from getStockPriceMethod", JSON.stringify(data))
+        console.log("got response from getStockPriceMethod")
         
         if (data['Time Series (Daily)']) {
             const latestDate = Object.keys(data['Time Series (Daily)'])[0];
