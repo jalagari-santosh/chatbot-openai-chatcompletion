@@ -118,9 +118,11 @@ app.post('/chat', async (req, res) => {
             });
 
             assistantReply = finalResponse.choices[0].message.content;
+        } else {
+            conversation.push({ role: 'assistant', content: assistantReply });
         }
 
-        // conversation.push({ role: 'assistant', content: assistantReply });
+       
         console.log(conversation)
         res.json({ assistantReply });
     } catch (error) {
